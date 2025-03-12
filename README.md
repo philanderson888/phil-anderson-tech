@@ -39,15 +39,21 @@ This website is built with:
 
 ## Contact
 
-- Email: philanderson888@gmail.com
+- Email: consultation@philanderson.co.uk
 - GitHub: [philanderson888](https://github.com/philanderson888)
 - Book a consultation: [Calendly](https://calendly.com/philanderson888/30min)
+
+## Live Website
+
+The website is live at:
+- Primary Domain: [philanderson.co.uk](https://philanderson.co.uk)
+- Netlify URL: [phil-anderson-tech.netlify.app](https://phil-anderson-tech.netlify.app)
 
 ## Development
 
 The project is hosted on:
-- GitHub: https://github.com/philanderson888/phil-anderson-tech
-- StackBlitz: https://stackblitz.com/~/github.com/philanderson888/phil-anderson-tech
+- GitHub: [github.com/philanderson888/phil-anderson-tech](https://github.com/philanderson888/phil-anderson-tech)
+- StackBlitz: [stackblitz.com/~/github.com/philanderson888/phil-anderson-tech](https://stackblitz.com/~/github.com/philanderson888/phil-anderson-tech)
 
 ### Running Locally
 
