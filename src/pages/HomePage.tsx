@@ -12,6 +12,7 @@ export const HomePage: React.FC = () => {
     message: ''
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,27 +20,32 @@ export const HomePage: React.FC = () => {
 
     try {
       setFormStatus('sending');
-      
-      await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+      setErrorMessage('');
+
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error(`Missing EmailJS config — service: ${serviceId}, template: ${templateId}, key: ${publicKey ? 'set' : 'missing'}`);
+      }
+
+      await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
 
       setFormStatus('success');
       setFormData({ from_name: '', from_email: '', from_phone: '', message: '' });
 
-      setTimeout(() => {
-        setFormStatus('idle');
-      }, 3000);
-    } catch (error) {
-      console.error('Error sending email:', error);
+      setTimeout(() => setFormStatus('idle'), 3000);
+    } catch (error: unknown) {
+      const msg = error instanceof Error
+        ? error.message
+        : typeof error === 'object' && error !== null && 'text' in error
+          ? String((error as { text: unknown }).text)
+          : String(error);
+      console.error('EmailJS error:', msg, error);
+      setErrorMessage(msg);
       setFormStatus('error');
-      
-      setTimeout(() => {
-        setFormStatus('idle');
-      }, 3000);
+      setTimeout(() => setFormStatus('idle'), 5000);
     }
   };
 
@@ -335,9 +341,10 @@ export const HomePage: React.FC = () => {
                   </p>
                 )}
                 {formStatus === 'error' && (
-                  <p className="text-red-600 text-center">
-                    There was an error sending your message. Please try again.
-                  </p>
+                  <div className="text-red-600 text-center text-sm bg-red-50 border border-red-200 rounded-lg p-3">
+                    <p className="font-semibold mb-1">Error sending message</p>
+                    {errorMessage && <p className="font-mono break-all">{errorMessage}</p>}
+                  </div>
                 )}
               </form>
             </div>
