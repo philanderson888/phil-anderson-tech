@@ -82,7 +82,7 @@ export const HomePage: React.FC = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
               <a 
-                href="https://calendly.com/philanderson888/30min"
+                href="https://calendly.com/philanderson888/1-1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors"
